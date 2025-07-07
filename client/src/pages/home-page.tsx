@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 import { Product, Category } from "@shared/schema";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -38,12 +39,16 @@ export default function HomePage() {
               Find unique digital assets, templates, and creative tools from talented creators
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-gray-100">
-                Start Shopping
-              </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-                Become a Seller
-              </Button>
+              <Link href="/browse">
+                <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-gray-100">
+                  Start Shopping
+                </Button>
+              </Link>
+              <Link href="/auth">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+                  Become a Seller
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

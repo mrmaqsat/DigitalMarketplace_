@@ -75,18 +75,14 @@ export default function Header() {
 
             {/* Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/browse">
-                <a className="text-gray-700 hover:text-primary transition-colors">
-                  Browse
-                </a>
+              <Link href="/browse" className="text-gray-700 hover:text-primary transition-colors">
+                Browse
               </Link>
               
               {user ? (
                 <>
-                  <Link href="/seller">
-                    <a className="text-gray-700 hover:text-primary transition-colors">
-                      Sell
-                    </a>
+                  <Link href="/seller" className="text-gray-700 hover:text-primary transition-colors">
+                    Sell
                   </Link>
                   
                   {/* Cart */}

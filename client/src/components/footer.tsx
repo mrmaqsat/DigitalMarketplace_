@@ -51,8 +51,8 @@ export default function Footer() {
             <h4 className="font-semibold mb-4">For Sellers</h4>
             <ul className="space-y-2 text-gray-300">
               <li>
-                <Link href="/seller">
-                  <a className="hover:text-white transition-colors">Start Selling</a>
+                <Link href="/seller" className="hover:text-white transition-colors">
+                  Start Selling
                 </Link>
               </li>
               <li>
