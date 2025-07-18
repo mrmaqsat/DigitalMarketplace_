@@ -1,0 +1,303 @@
+{
+  "summary": {
+    "total_categories": 5,
+    "total_images": 15,
+    "web_specs": {
+      "width": 400,
+      "height": 300,
+      "format": "WebP",
+      "quality": 85,
+      "aspect_ratio": "4:3"
+    },
+    "categories": [
+      "digital_art",
+      "software",
+      "ebooks",
+      "templates",
+      "music"
+    ]
+  },
+  "results": {
+    "digital_art": [
+      {
+        "filename": "digital_art_1.webp",
+        "path": "./digital_art_1.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=1",
+          "download_url": "https://picsum.photos/800/600?random=1",
+          "author": "Placeholder Service",
+          "description": "digital_art placeholder image 1",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      },
+      {
+        "filename": "digital_art_2.webp",
+        "path": "./digital_art_2.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=2",
+          "download_url": "https://picsum.photos/800/600?random=2",
+          "author": "Placeholder Service",
+          "description": "digital_art placeholder image 2",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      },
+      {
+        "filename": "digital_art_3.webp",
+        "path": "./digital_art_3.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=3",
+          "download_url": "https://picsum.photos/800/600?random=3",
+          "author": "Placeholder Service",
+          "description": "digital_art placeholder image 3",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      }
+    ],
+    "software": [
+      {
+        "filename": "software_1.webp",
+        "path": "./software_1.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=1",
+          "download_url": "https://picsum.photos/800/600?random=1",
+          "author": "Placeholder Service",
+          "description": "software placeholder image 1",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      },
+      {
+        "filename": "software_2.webp",
+        "path": "./software_2.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=2",
+          "download_url": "https://picsum.photos/800/600?random=2",
+          "author": "Placeholder Service",
+          "description": "software placeholder image 2",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      },
+      {
+        "filename": "software_3.webp",
+        "path": "./software_3.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=3",
+          "download_url": "https://picsum.photos/800/600?random=3",
+          "author": "Placeholder Service",
+          "description": "software placeholder image 3",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      }
+    ],
+    "ebooks": [
+      {
+        "filename": "ebooks_1.webp",
+        "path": "./ebooks_1.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=1",
+          "download_url": "https://picsum.photos/800/600?random=1",
+          "author": "Placeholder Service",
+          "description": "ebooks placeholder image 1",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      },
+      {
+        "filename": "ebooks_2.webp",
+        "path": "./ebooks_2.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=2",
+          "download_url": "https://picsum.photos/800/600?random=2",
+          "author": "Placeholder Service",
+          "description": "ebooks placeholder image 2",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      },
+      {
+        "filename": "ebooks_3.webp",
+        "path": "./ebooks_3.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=3",
+          "download_url": "https://picsum.photos/800/600?random=3",
+          "author": "Placeholder Service",
+          "description": "ebooks placeholder image 3",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      }
+    ],
+    "templates": [
+      {
+        "filename": "templates_1.webp",
+        "path": "./templates_1.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=1",
+          "download_url": "https://picsum.photos/800/600?random=1",
+          "author": "Placeholder Service",
+          "description": "templates placeholder image 1",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      },
+      {
+        "filename": "templates_2.webp",
+        "path": "./templates_2.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=2",
+          "download_url": "https://picsum.photos/800/600?random=2",
+          "author": "Placeholder Service",
+          "description": "templates placeholder image 2",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      },
+      {
+        "filename": "templates_3.webp",
+        "path": "./templates_3.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=3",
+          "download_url": "https://picsum.photos/800/600?random=3",
+          "author": "Placeholder Service",
+          "description": "templates placeholder image 3",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      }
+    ],
+    "music": [
+      {
+        "filename": "music_1.webp",
+        "path": "./music_1.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=1",
+          "download_url": "https://picsum.photos/800/600?random=1",
+          "author": "Placeholder Service",
+          "description": "music placeholder image 1",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      },
+      {
+        "filename": "music_2.webp",
+        "path": "./music_2.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=2",
+          "download_url": "https://picsum.photos/800/600?random=2",
+          "author": "Placeholder Service",
+          "description": "music placeholder image 2",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      },
+      {
+        "filename": "music_3.webp",
+        "path": "./music_3.webp",
+        "original_info": {
+          "url": "https://picsum.photos/800/600?random=3",
+          "download_url": "https://picsum.photos/800/600?random=3",
+          "author": "Placeholder Service",
+          "description": "music placeholder image 3",
+          "source": "placeholder"
+        },
+        "optimized_specs": {
+          "width": 400,
+          "height": 300,
+          "format": "WebP",
+          "quality": 85,
+          "aspect_ratio": "4:3"
+        }
+      }
+    ]
+  },
+  "generated_at": "2025-07-18 17:31:55"
+}

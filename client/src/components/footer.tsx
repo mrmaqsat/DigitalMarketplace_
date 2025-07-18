@@ -1,95 +1,117 @@
 import { Link } from "wouter";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Instagram, Linkedin, MessageCircle } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-secondary text-white py-12 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-gradient-to-br from-primary to-accent text-white py-16 mt-20 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4">DigitalMart</h3>
-            <p className="text-gray-300 mb-4">
-              The marketplace for digital creators and buyers worldwide.
+            <h3 className="text-2xl font-bold mb-4 text-gradient bg-gradient-to-r from-white to-white/80 bg-clip-text">Цифровой Маркет</h3>
+            <p className="text-white/80 mb-6 leading-relaxed">
+              Маркетплейс для цифровых создателей и покупателей по всему миру.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <Facebook className="w-5 h-5" />
+              <a href="https://t.me/zhaksytech" className="text-white/70 hover:text-white transition-all hover:scale-110 p-2 rounded-full hover:bg-white/10">
+                <MessageCircle className="w-5 h-5" />
               </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              <a href="https://www.instagram.com/zhaksytex?igsh=cXdta3ZjcW0xb2Mz" className="text-white/70 hover:text-white transition-all hover:scale-110 p-2 rounded-full hover:bg-white/10">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              <a href="https://www.linkedin.com/in/zhaksy-tech/" className="text-white/70 hover:text-white transition-all hover:scale-110 p-2 rounded-full hover:bg-white/10">
                 <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>
           
           <div>
-            <h4 className="font-semibold mb-4">For Buyers</h4>
+            <h4 className="font-semibold mb-4">Для покупателей</h4>
             <ul className="space-y-2 text-gray-300">
               <li>
-                <Link href="/browse">
-                  <a className="hover:text-white transition-colors">Browse Products</a>
+                <Link href="/browse" className="hover:text-white transition-colors">
+                  Просмотр товаров
                 </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">How to Buy</a>
+                <Link href="/how-to-buy" className="hover:text-white transition-colors">
+                  Как купить
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">Support</a>
+                <Link href="/support" className="hover:text-white transition-colors">
+                  Поддержка
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">Refund Policy</a>
+                <Link href="/refund-policy" className="hover:text-white transition-colors">
+                  Политика возврата
+                </Link>
               </li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-semibold mb-4">For Sellers</h4>
+            <h4 className="font-semibold mb-4">Для продавцов</h4>
             <ul className="space-y-2 text-gray-300">
               <li>
                 <Link href="/seller" className="hover:text-white transition-colors">
-                  Start Selling
+                  Начать продажи
                 </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">Seller Guide</a>
+                <Link href="/seller-guide" className="hover:text-white transition-colors">
+                  Руководство продавца
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">Fees & Pricing</a>
+                <Link href="/fees-pricing" className="hover:text-white transition-colors">
+                  Комиссии и цены
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">Seller Resources</a>
+                <Link href="/seller-resources" className="hover:text-white transition-colors">
+                  Ресурсы продавца
+                </Link>
               </li>
             </ul>
           </div>
           
           <div>
-            <h4 className="font-semibold mb-4">Company</h4>
+            <h4 className="font-semibold mb-4">Компания</h4>
             <ul className="space-y-2 text-gray-300">
               <li>
-                <a href="#" className="hover:text-white transition-colors">About Us</a>
+                <Link href="/about-us" className="hover:text-white transition-colors">
+                  О нас
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+                <Link href="/privacy-policy" className="hover:text-white transition-colors">
+                  Политика конфиденциальности
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                <Link href="/terms-of-service" className="hover:text-white transition-colors">
+                  Условия использования
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors">Contact</a>
+                <Link href="/contact" className="hover:text-white transition-colors">
+                  Контакты
+                </Link>
               </li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-gray-600 mt-8 pt-8 text-center text-gray-300">
-          <p>&copy; 2024 DigitalMart. All rights reserved.</p>
+        <div className="border-t border-white/20 mt-12 pt-8 text-center text-white/80">
+          <p>&copy; 2025 Цифровой Маркет. Все права защищены.</p>
         </div>
       </div>
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+      <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-white/5 rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2" />
     </footer>
   );
 }

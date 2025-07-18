@@ -20,6 +20,7 @@ import { Cart } from "@shared/schema";
 export default function Header() {
   const [, navigate] = useLocation();
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { user, logoutMutation } = useAuth();
 
@@ -41,31 +42,35 @@ export default function Header() {
     }
   };
 
+  const handleSettings = () => {
+    navigate("/settings");
+  };
+
   return (
     <>
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+      <header className="bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50 sticky top-0 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
               <Link href="/">
-                <h1 className="text-2xl font-bold text-primary cursor-pointer">
-                  DigitalMart
+                <h1 className="logo-text hover:text-primary cursor-pointer hover:scale-105 transition-all duration-300">
+                  Цифровой Маркет
                 </h1>
               </Link>
             </div>
 
-            {/* Search Bar */}
-            <div className="flex-1 max-w-2xl mx-8">
-              <form onSubmit={handleSearch}>
+            {/* Search Bar - Hidden on mobile */}
+            <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+              <form onSubmit={handleSearch} className="w-full">
                 <div className="relative">
-                  <Input
-                    type="text"
-                    placeholder="Search for digital products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2"
-                  />
+                    <Input
+                      type="text"
+                      placeholder="Поиск цифровых товаров..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2"
+                    />
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Search className="h-4 w-4 text-gray-400" />
                   </div>
@@ -75,14 +80,14 @@ export default function Header() {
 
             {/* Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/browse" className="text-gray-700 hover:text-primary transition-colors">
-                Browse
+              <Link href="/browse" className="nav-link">
+                Каталог
               </Link>
               
               {user ? (
                 <>
-                  <Link href="/seller" className="text-gray-700 hover:text-primary transition-colors">
-                    Sell
+                  <Link href="/seller" className="nav-link">
+                    Продавать
                   </Link>
                   
                   {/* Cart */}
@@ -127,45 +132,120 @@ export default function Header() {
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={() => navigate("/dashboard")}>
                         <User className="mr-2 h-4 w-4" />
-                        Dashboard
+                        Панель управления
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => navigate("/seller")}>
                         <Store className="mr-2 h-4 w-4" />
-                        Seller Dashboard
+                        Панель продавца
                       </DropdownMenuItem>
                       {user.role === "admin" && (
                         <DropdownMenuItem onClick={() => navigate("/admin")}>
                           <Shield className="mr-2 h-4 w-4" />
-                          Admin Panel
+                          Панель админа
                         </DropdownMenuItem>
                       )}
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleSettings}>
                         <Settings className="mr-2 h-4 w-4" />
-                        Settings
+                        Настройки
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={handleLogout}>
                         <LogOut className="mr-2 h-4 w-4" />
-                        Log out
+                        Выйти
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </>
               ) : (
                 <Button asChild>
-                  <Link href="/auth">Sign In</Link>
+                  <Link href="/auth">Войти</Link>
                 </Button>
               )}
             </nav>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <Button variant="ghost" size="sm">
+            <div className="flex md:hidden items-center space-x-2">
+              {user && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="relative"
+                  onClick={() => setIsCartOpen(true)}
+                >
+                  <ShoppingCart className="h-5 w-5" />
+                  {cartCount > 0 && (
+                    <Badge 
+                      variant="destructive" 
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                    >
+                      {cartCount}
+                    </Badge>
+                  )}
+                </Button>
+              )}
+              <Button variant="ghost" size="sm" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                 <Menu className="h-5 w-5" />
               </Button>
             </div>
           </div>
         </div>
+        
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+            <div className="px-4 py-4 space-y-2">
+              {/* Mobile Search */}
+              <div className="mb-4">
+                <form onSubmit={handleSearch}>
+                  <div className="relative">
+                    <Input
+                      type="text"
+                      placeholder="Поиск товаров..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2"
+                    />
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Search className="h-4 w-4 text-gray-400" />
+                    </div>
+                  </div>
+                </form>
+              </div>
+              
+              <Link href="/browse" className="block px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md font-medium">
+                Каталог
+              </Link>
+              {user ? (
+                <>
+                  <Link href="/seller" className="block px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md font-medium">
+                    Продавать
+                  </Link>
+                  <Link href="/dashboard" className="block px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md font-medium">
+                    Панель управления
+                  </Link>
+                  {user.role === "admin" && (
+                    <Link href="/admin" className="block px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md font-medium">
+                      Панель админа
+                    </Link>
+                  )}
+                  <Link href="/settings" className="block px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md font-medium">
+                    Настройки
+                  </Link>
+                  <button 
+                    onClick={handleLogout} 
+                    className="block w-full text-left px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md font-medium"
+                  >
+                    Выйти
+                  </button>
+                </>
+              ) : (
+                <Link href="/auth" className="block px-3 py-3 text-gray-700 hover:bg-gray-100 rounded-md font-medium">
+                  Войти
+                </Link>
+              )}
+            </div>
+          </div>
+        )}
       </header>
 
       <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />

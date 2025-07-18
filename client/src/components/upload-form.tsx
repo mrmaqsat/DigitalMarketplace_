@@ -3,21 +3,33 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Category } from "@shared/schema";
+import { ICategory } from "@shared/models";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { X, Upload, FileText, Image } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { X, FileText, Image } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const uploadSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().min(10, "Description must be at least 10 characters"),
-  price: z.string().min(1, "Price is required"),
-  categoryId: z.string().min(1, "Category is required"),
+  title: z.string().min(1, "Название обязательно"),
+  description: z.string().min(10, "Описание должно содержать минимум 10 символов"),
+  price: z.string().min(1, "Цена обязательна"),
+  categoryId: z.string().min(1, "Категория обязательна"),
 });
 
 type UploadData = z.infer<typeof uploadSchema>;
@@ -33,7 +45,7 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: categories } = useQuery<Category[]>({
+  const { data: categories } = useQuery<ICategory[]>({
     queryKey: ["/api/categories"],
   });
 
@@ -55,13 +67,8 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
       formData.append("price", data.price);
       formData.append("categoryId", data.categoryId);
 
-      selectedImages.forEach((file) => {
-        formData.append("images", file);
-      });
-
-      selectedFiles.forEach((file) => {
-        formData.append("files", file);
-      });
+      selectedImages.forEach((file) => formData.append("images", file));
+      selectedFiles.forEach((file) => formData.append("files", file));
 
       const response = await fetch("/api/products", {
         method: "POST",
@@ -69,17 +76,14 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
         credentials: "include",
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to upload product");
-      }
-
+      if (!response.ok) throw new Error("Failed to upload product");
       return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/seller/products"] });
       toast({
-        title: "Product uploaded successfully!",
-        description: "Your product is now pending approval.",
+        title: "Товар успешно загружен!",
+        description: "Ваш товар ожидает одобрения.",
       });
       onClose();
       form.reset();
@@ -88,8 +92,8 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
     },
     onError: () => {
       toast({
-        title: "Upload failed",
-        description: "There was an error uploading your product.",
+        title: "Ошибка загрузки",
+        description: "Произошла ошибка при загрузке вашего товара.",
         variant: "destructive",
       });
     },
@@ -97,14 +101,14 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const files = Array.from(e.target.files).slice(0, 5); // Limit to 5 images
+      const files = Array.from(e.target.files).slice(0, 5);
       setSelectedImages(files);
     }
   };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const files = Array.from(e.target.files).slice(0, 10); // Limit to 10 files
+      const files = Array.from(e.target.files).slice(0, 10);
       setSelectedFiles(files);
     }
   };
@@ -112,8 +116,8 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
   const onSubmit = (data: UploadData) => {
     if (selectedImages.length === 0) {
       toast({
-        title: "Images required",
-        description: "Please upload at least one product image.",
+        title: "Требуются изображения",
+        description: "Пожалуйста, загрузите хотя бы одно изображение товара.",
         variant: "destructive",
       });
       return;
@@ -121,8 +125,8 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
 
     if (selectedFiles.length === 0) {
       toast({
-        title: "Files required",
-        description: "Please upload at least one digital file.",
+        title: "Требуются файлы",
+        description: "Пожалуйста, загрузите хотя бы один цифровой файл.",
         variant: "destructive",
       });
       return;
@@ -135,18 +139,15 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
 
   return (
     <>
-      {/* Backdrop */}
       <div className="fixed inset-0 bg-black bg-opacity-50 z-50" onClick={onClose} />
-      
-      {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <Card className="w-full max-w-2xl max-h-full overflow-y-auto">
           <CardHeader>
             <div className="flex justify-between items-center">
               <div>
-                <CardTitle>Upload New Product</CardTitle>
+                <CardTitle>Загрузить новый товар</CardTitle>
                 <CardDescription>
-                  Add a new digital product to your store
+                  Добавить новый цифровой товар в ваш магазин
                 </CardDescription>
               </div>
               <Button variant="ghost" size="sm" onClick={onClose}>
@@ -154,41 +155,33 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
               </Button>
             </div>
           </CardHeader>
-          
+
           <CardContent>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="title">Product Title</Label>
-                <Input
-                  id="title"
-                  {...form.register("title")}
-                  placeholder="Enter product title"
-                />
+                <Label htmlFor="title">Название товара</Label>
+                <Input id="title" {...form.register("title")} placeholder="Введите название товара" />
                 {form.formState.errors.title && (
-                  <p className="text-sm text-destructive">
-                    {form.formState.errors.title.message}
-                  </p>
+                  <p className="text-sm text-destructive">{form.formState.errors.title.message}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">Описание</Label>
                 <Textarea
                   id="description"
                   {...form.register("description")}
-                  placeholder="Describe your product"
+                  placeholder="Опишите ваш товар"
                   rows={4}
                 />
                 {form.formState.errors.description && (
-                  <p className="text-sm text-destructive">
-                    {form.formState.errors.description.message}
-                  </p>
+                  <p className="text-sm text-destructive">{form.formState.errors.description.message}</p>
                 )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="price">Price ($)</Label>
+                  <Label htmlFor="price">Цена ($)</Label>
                   <Input
                     id="price"
                     type="number"
@@ -197,30 +190,37 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
                     placeholder="29.99"
                   />
                   {form.formState.errors.price && (
-                    <p className="text-sm text-destructive">
-                      {form.formState.errors.price.message}
-                    </p>
+                    <p className="text-sm text-destructive">{form.formState.errors.price.message}</p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="category">Category</Label>
-                  <Select onValueChange={(value) => form.setValue("categoryId", value)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select category" />
+                  <Label htmlFor="category">Категория</Label>
+                  <Select
+                    onValueChange={(value) => form.setValue("categoryId", value)}
+                    disabled={!categories || categories.length === 0}
+                  >
+                    <SelectTrigger className={!categories?.length ? "cursor-not-allowed opacity-50" : ""}>
+                      <SelectValue
+                        placeholder={
+                          categories?.length ? "Выберите категорию" : "Категории недоступны"
+                        }
+                      />
                     </SelectTrigger>
                     <SelectContent>
-                      {categories?.map((category) => (
-                        <SelectItem key={category.id} value={category.id.toString()}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
+                      {categories && categories.length > 0 ? (
+                        categories.map((category) => (
+                          <SelectItem key={category._id} value={category._id.toString()}>
+                            {category.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <div className="p-2 text-sm text-gray-500">Категории недоступны</div>
+                      )}
                     </SelectContent>
                   </Select>
                   {form.formState.errors.categoryId && (
-                    <p className="text-sm text-destructive">
-                      {form.formState.errors.categoryId.message}
-                    </p>
+                    <p className="text-sm text-destructive">{form.formState.errors.categoryId.message}</p>
                   )}
                 </div>
               </div>
@@ -250,7 +250,8 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
                 </div>
                 {selectedImages.length > 0 && (
                   <div className="text-sm text-gray-600">
-                    {selectedImages.length} image(s) selected: {selectedImages.map(f => f.name).join(", ")}
+                    {selectedImages.length} image(s) selected:{" "}
+                    {selectedImages.map((f) => f.name).join(", ")}
                   </div>
                 )}
               </div>
@@ -279,7 +280,8 @@ export default function UploadForm({ isOpen, onClose }: UploadFormProps) {
                 </div>
                 {selectedFiles.length > 0 && (
                   <div className="text-sm text-gray-600">
-                    {selectedFiles.length} file(s) selected: {selectedFiles.map(f => f.name).join(", ")}
+                    {selectedFiles.length} file(s) selected:{" "}
+                    {selectedFiles.map((f) => f.name).join(", ")}
                   </div>
                 )}
               </div>

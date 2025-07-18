@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Product } from "@shared/schema";
+import { IProduct } from "@shared/models";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import UploadForm from "@/components/upload-form";
@@ -27,13 +27,13 @@ export default function SellerDashboard() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: products, isLoading } = useQuery<Product[]>({
+  const { data: products, isLoading } = useQuery<IProduct[]>({
     queryKey: ["/api/seller/products"],
   });
 
   const deleteProductMutation = useMutation({
-    mutationFn: async (productId: number) => {
-      return await apiRequest("DELETE", `/api/products/${productId}`);
+    mutationFn: async (productId: string) => {
+      return await apiRequest("DELETE", `/api/products/${productId.toString()}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/seller/products"] });
@@ -51,9 +51,9 @@ export default function SellerDashboard() {
     },
   });
 
-  const handleDelete = (productId: number) => {
+  const handleDelete = (productId: string) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
-      deleteProductMutation.mutate(productId);
+      deleteProductMutation.mutate(productId.toString());
     }
   };
 
@@ -65,11 +65,11 @@ export default function SellerDashboard() {
   };
 
   const stats = {
-    totalSales: products?.reduce((sum, p) => sum + parseFloat(p.price) * p.salesCount, 0) || 0,
+    totalSales: products?.reduce((sum, p) => sum + p.price * p.salesCount, 0) || 0,
     productsSold: products?.reduce((sum, p) => sum + p.salesCount, 0) || 0,
     activeProducts: products?.filter(p => p.status === "approved").length || 0,
     avgRating: products?.length 
-      ? products.reduce((sum, p) => sum + parseFloat(p.rating || "0"), 0) / products.length 
+      ? products.reduce((sum, p) => sum + (p.rating || 0), 0) / products.length 
       : 0,
   };
 
@@ -82,10 +82,10 @@ export default function SellerDashboard() {
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center section-spacing">
           <div>
-            <h1 className="text-3xl font-bold text-secondary">Seller Dashboard</h1>
-            <p className="text-gray-600">Manage your digital products and sales</p>
+            <h1 className="heading-primary">Seller Dashboard</h1>
+            <p className="text-body-large">Manage your digital products and sales</p>
           </div>
           <Button 
             onClick={() => setShowUploadForm(true)}
@@ -207,7 +207,7 @@ export default function SellerDashboard() {
                 </TableHeader>
                 <TableBody>
                   {products.map((product) => (
-                    <TableRow key={product.id}>
+                    <TableRow key={product._id}>
                       <TableCell className="flex items-center space-x-3">
                         <img
                           src={product.images?.[0] || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=40"}
@@ -219,7 +219,7 @@ export default function SellerDashboard() {
                           <div className="text-sm text-gray-500">Digital Product</div>
                         </div>
                       </TableCell>
-                      <TableCell>{formatPrice(product.price)}</TableCell>
+                      <TableCell>{formatPrice(product.price.toString())}</TableCell>
                       <TableCell>{product.salesCount}</TableCell>
                       <TableCell>
                         <div className="flex items-center">
@@ -245,7 +245,7 @@ export default function SellerDashboard() {
                           <Button 
                             variant="ghost" 
                             size="sm"
-                            onClick={() => handleDelete(product.id)}
+                            onClick={() => handleDelete(product._id)}
                             disabled={deleteProductMutation.isPending}
                             className="text-red-600 hover:text-red-700"
                           >

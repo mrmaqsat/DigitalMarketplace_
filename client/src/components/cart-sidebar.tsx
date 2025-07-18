@@ -3,10 +3,14 @@ import { Cart, Product } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { X, Trash2, ShoppingBag } from "lucide-react";
+import { X, Trash2, ShoppingBag, CreditCard } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
+import { loadStripe } from "@stripe/stripe-js";
+
+// Initialize Stripe
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_your_stripe_publishable_key_here');
 
 interface CartSidebarProps {
   isOpen: boolean;
@@ -24,7 +28,7 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
   });
 
   const removeFromCartMutation = useMutation({
-    mutationFn: async (productId: number) => {
+    mutationFn: async (productId: string) => {
       return await apiRequest("DELETE", `/api/cart/${productId}`);
     },
     onSuccess: () => {
@@ -43,7 +47,41 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
     },
   });
 
-  const checkoutMutation = useMutation({
+  const stripeCheckoutMutation = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("POST", "/api/create-checkout-session");
+    },
+    onSuccess: async (data: { sessionId: string; url: string; orderId: string }) => {
+      const stripe = await stripePromise;
+      if (!stripe) {
+        throw new Error('Stripe failed to initialize');
+      }
+      
+      // Redirect to Stripe checkout
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.sessionId,
+      });
+      
+      if (error) {
+        console.error('Stripe redirect error:', error);
+        toast({
+          title: "Payment Error",
+          description: error.message || "There was an error redirecting to payment.",
+          variant: "destructive",
+        });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Checkout failed",
+        description: error.message || "There was an error creating the checkout session.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Legacy checkout mutation (for testing or backup)
+  const legacyCheckoutMutation = useMutation({
     mutationFn: async () => {
       return await apiRequest("POST", "/api/orders");
     },
@@ -74,12 +112,16 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
     }).format(typeof price === 'string' ? parseFloat(price) : price);
   };
 
-  const handleRemoveItem = (productId: number) => {
+  const handleRemoveItem = (productId: string) => {
     removeFromCartMutation.mutate(productId);
   };
 
-  const handleCheckout = () => {
-    checkoutMutation.mutate();
+  const handleStripeCheckout = () => {
+    stripeCheckoutMutation.mutate();
+  };
+
+  const handleLegacyCheckout = () => {
+    legacyCheckoutMutation.mutate();
   };
 
   if (!user) {
@@ -159,7 +201,7 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleRemoveItem(item.productId)}
+                          onClick={() => handleRemoveItem(item.productId || item.product._id)}
                           disabled={removeFromCartMutation.isPending}
                           className="text-gray-400 hover:text-red-500"
                         >
@@ -179,11 +221,20 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                     </span>
                   </div>
                   <Button
-                    onClick={handleCheckout}
-                    disabled={checkoutMutation.isPending}
-                    className="w-full bg-primary hover:bg-primary/90"
+                    onClick={handleStripeCheckout}
+                    disabled={stripeCheckoutMutation.isPending}
+                    className="w-full bg-primary hover:bg-primary/90 mb-2"
                   >
-                    {checkoutMutation.isPending ? "Processing..." : "Proceed to Checkout"}
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    {stripeCheckoutMutation.isPending ? "Processing..." : "Pay with Stripe"}
+                  </Button>
+                  <Button
+                    onClick={handleLegacyCheckout}
+                    disabled={legacyCheckoutMutation.isPending}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    {legacyCheckoutMutation.isPending ? "Processing..." : "Legacy Checkout"}
                   </Button>
                 </div>
               </>

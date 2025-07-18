@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Order, Product } from "@shared/schema";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -13,13 +15,15 @@ import { useAuth } from "@/hooks/use-auth";
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const [, navigate] = useLocation();
+  const [activeTab, setActiveTab] = useState("purchases");
 
   const { data: orders, isLoading: ordersLoading } = useQuery<(Order & { items: any[] })[]>({
     queryKey: ["/api/orders"],
   });
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString('ru-RU', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -27,7 +31,7 @@ export default function DashboardPage() {
   };
 
   const formatPrice = (price: string) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('ru-RU', {
       style: 'currency',
       currency: 'USD',
     }).format(parseFloat(price));
@@ -62,17 +66,29 @@ export default function DashboardPage() {
                 </div>
                 
                 <nav className="space-y-2">
-                  <Button variant="secondary" className="w-full justify-start">
+                  <Button 
+                    variant={activeTab === "purchases" ? "secondary" : "ghost"} 
+                    className="w-full justify-start"
+                    onClick={() => setActiveTab("purchases")}
+                  >
                     <ShoppingBag className="mr-2 h-4 w-4" />
-                    My Purchases
+                    Мои покупки
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start">
+                  <Button 
+                    variant={activeTab === "profile" ? "secondary" : "ghost"} 
+                    className="w-full justify-start"
+                    onClick={() => setActiveTab("profile")}
+                  >
                     <User className="mr-2 h-4 w-4" />
-                    Profile
+                    Профиль
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start">
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start"
+                    onClick={() => navigate("/settings")}
+                  >
                     <Settings className="mr-2 h-4 w-4" />
-                    Settings
+                    Настройки
                   </Button>
                 </nav>
               </CardContent>
@@ -82,22 +98,22 @@ export default function DashboardPage() {
           {/* Main Content */}
           <div className="lg:w-3/4">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-secondary mb-2">My Dashboard</h1>
-              <p className="text-gray-600">Manage your purchases and account settings</p>
+              <h1 className="text-3xl font-bold text-secondary mb-2">Моя панель</h1>
+              <p className="text-gray-600">Управляйте своими покупками и настройками аккаунта</p>
             </div>
 
-            <Tabs defaultValue="purchases" className="space-y-6">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
               <TabsList>
-                <TabsTrigger value="purchases">My Purchases</TabsTrigger>
-                <TabsTrigger value="profile">Profile</TabsTrigger>
+                <TabsTrigger value="purchases">Мои покупки</TabsTrigger>
+                <TabsTrigger value="profile">Профиль</TabsTrigger>
               </TabsList>
 
               <TabsContent value="purchases" className="space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Purchase History</CardTitle>
+                    <CardTitle>История покупок</CardTitle>
                     <CardDescription>
-                      View and download your purchased digital products
+                      Просматривайте и скачивайте свои купленные цифровые товары
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -127,13 +143,13 @@ export default function DashboardPage() {
                       <div className="text-center py-12">
                         <ShoppingBag className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                          No purchases yet
+                          Пока нет покупок
                         </h3>
                         <p className="text-gray-500 mb-6">
-                          Start shopping to see your purchases here
+                          Начните покупки, чтобы увидеть их здесь
                         </p>
-                        <Button className="bg-primary hover:bg-primary/90">
-                          Browse Products
+                        <Button className="bg-primary hover:bg-primary/90" onClick={() => navigate("/browse")}>
+                          Просмотреть товары
                         </Button>
                       </div>
                     ) : (
@@ -143,14 +159,14 @@ export default function DashboardPage() {
                             <div className="flex justify-between items-start mb-4">
                               <div>
                                 <h3 className="font-semibold text-lg mb-1">
-                                  Order #{order.id}
+                                  Заказ #{order.id}
                                 </h3>
                                 <p className="text-gray-600 flex items-center">
                                   <Calendar className="w-4 h-4 mr-1" />
                                   {formatDate(order.createdAt)}
                                 </p>
                                 <p className="text-sm text-gray-500">
-                                  {order.items.length} item(s)
+                                  {order.items.length} товар(ов)
                                 </p>
                               </div>
                               <div className="text-right">
@@ -161,7 +177,7 @@ export default function DashboardPage() {
                                   variant={order.status === "completed" ? "default" : "secondary"}
                                   className="mt-1"
                                 >
-                                  {order.status}
+                                  {order.status === "completed" ? "Завершён" : order.status}
                                 </Badge>
                               </div>
                             </div>
@@ -187,11 +203,11 @@ export default function DashboardPage() {
                                   <div className="flex space-x-2">
                                     <Button size="sm" className="bg-primary hover:bg-primary/90">
                                       <Download className="w-4 h-4 mr-1" />
-                                      Download
+                                      Скачать
                                     </Button>
                                     <Button size="sm" variant="outline">
                                       <Star className="w-4 h-4 mr-1" />
-                                      Review
+                                      Отзыв
                                     </Button>
                                   </div>
                                 </div>
@@ -208,34 +224,34 @@ export default function DashboardPage() {
               <TabsContent value="profile" className="space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Profile Information</CardTitle>
+                    <CardTitle>Информация о профиле</CardTitle>
                     <CardDescription>
-                      Manage your account details and preferences
+                      Управляйте данными вашего аккаунта и настройками
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="text-sm font-medium text-gray-700">Full Name</label>
+                        <label className="text-sm font-medium text-gray-700">Полное имя</label>
                         <p className="mt-1 text-gray-900">{user.fullName}</p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-700">Email</label>
+                        <label className="text-sm font-medium text-gray-700">Электронная почта</label>
                         <p className="mt-1 text-gray-900">{user.email}</p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-700">Username</label>
+                        <label className="text-sm font-medium text-gray-700">Имя пользователя</label>
                         <p className="mt-1 text-gray-900">{user.username}</p>
                       </div>
                       <div>
-                        <label className="text-sm font-medium text-gray-700">Role</label>
+                        <label className="text-sm font-medium text-gray-700">Роль</label>
                         <p className="mt-1 text-gray-900 capitalize">{user.role}</p>
                       </div>
                     </div>
                     
                     <div className="pt-6 border-t">
-                      <Button className="bg-primary hover:bg-primary/90">
-                        Edit Profile
+                      <Button className="bg-primary hover:bg-primary/90" onClick={() => navigate("/settings")}>
+                        Редактировать профиль
                       </Button>
                     </div>
                   </CardContent>

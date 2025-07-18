@@ -4,25 +4,25 @@ import { Express } from "express";
 import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
-import { storage } from "./storage";
-import { User as SelectUser } from "@shared/schema";
+import { storage } from "./mongo-storage.js";
+import { type IUser } from "@shared/models.js";
 
 declare global {
   namespace Express {
-    interface User extends SelectUser {}
+    interface User extends IUser {}
   }
 }
 
 const scryptAsync = promisify(scrypt);
 
 async function hashPassword(password: string) {
-  const salt = randomBytes(16).toString("hex");
+  const salt = randomBytes(16).toString('hex');
   const buf = (await scryptAsync(password, salt, 64)) as Buffer;
-  return `${buf.toString("hex")}.${salt}`;
+  return salt + ':' + buf.toString('hex');
 }
 
 async function comparePasswords(supplied: string, stored: string) {
-  const [hashed, salt] = stored.split(".");
+  const [salt, hashed] = stored.split(":");
   const hashedBuf = Buffer.from(hashed, "hex");
   const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
   return timingSafeEqual(hashedBuf, suppliedBuf);
@@ -52,8 +52,8 @@ export function setupAuth(app: Express) {
     }),
   );
 
-  passport.serializeUser((user, done) => done(null, user.id));
-  passport.deserializeUser(async (id: number, done) => {
+  passport.serializeUser((user, done) => done(null, user._id.toString()));
+  passport.deserializeUser(async (id: string, done) => {
     const user = await storage.getUser(id);
     done(null, user);
   });
@@ -64,10 +64,25 @@ export function setupAuth(app: Express) {
       return res.status(400).send("Username already exists");
     }
 
+    let referrerId = null;
+    // Check if referral code is provided and valid
+    if (req.body.referralCode) {
+      const referrer = await storage.getUserByReferralCode(req.body.referralCode);
+      if (referrer) {
+        referrerId = referrer._id;
+      }
+    }
+
     const user = await storage.createUser({
       ...req.body,
       password: await hashPassword(req.body.password),
+      referrerId,
     });
+
+    // Update referrer's total referrals count
+    if (referrerId) {
+      await storage.updateReferralCount(referrerId, 1);
+    }
 
     req.login(user, (err) => {
       if (err) return next(err);

@@ -1,0 +1,68 @@
+{
+  "category": "digital_art",
+  "description": "Creative digital artwork and illustrations",
+  "web_specs": {
+    "width": 400,
+    "height": 300,
+    "format": "WebP",
+    "quality": 85,
+    "aspect_ratio": "4:3"
+  },
+  "images": [
+    {
+      "filename": "digital_art_1.webp",
+      "path": "./digital_art_1.webp",
+      "original_info": {
+        "url": "https://picsum.photos/800/600?random=1",
+        "download_url": "https://picsum.photos/800/600?random=1",
+        "author": "Placeholder Service",
+        "description": "digital_art placeholder image 1",
+        "source": "placeholder"
+      },
+      "optimized_specs": {
+        "width": 400,
+        "height": 300,
+        "format": "WebP",
+        "quality": 85,
+        "aspect_ratio": "4:3"
+      }
+    },
+    {
+      "filename": "digital_art_2.webp",
+      "path": "./digital_art_2.webp",
+      "original_info": {
+        "url": "https://picsum.photos/800/600?random=2",
+        "download_url": "https://picsum.photos/800/600?random=2",
+        "author": "Placeholder Service",
+        "description": "digital_art placeholder image 2",
+        "source": "placeholder"
+      },
+      "optimized_specs": {
+        "width": 400,
+        "height": 300,
+        "format": "WebP",
+        "quality": 85,
+        "aspect_ratio": "4:3"
+      }
+    },
+    {
+      "filename": "digital_art_3.webp",
+      "path": "./digital_art_3.webp",
+      "original_info": {
+        "url": "https://picsum.photos/800/600?random=3",
+        "download_url": "https://picsum.photos/800/600?random=3",
+        "author": "Placeholder Service",
+        "description": "digital_art placeholder image 3",
+        "source": "placeholder"
+      },
+      "optimized_specs": {
+        "width": 400,
+        "height": 300,
+        "format": "WebP",
+        "quality": 85,
+        "aspect_ratio": "4:3"
+      }
+    }
+  ],
+  "generated_at": "2025-07-18 17:31:46"
+}

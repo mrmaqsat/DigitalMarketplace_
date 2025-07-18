@@ -13,15 +13,15 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowRight, ShoppingBag, Star, Users } from "lucide-react";
 
 const loginSchema = z.object({
-  username: z.string().min(1, "Username is required"),
-  password: z.string().min(1, "Password is required"),
+  username: z.string().min(1, "Имя пользователя обязательно"),
+  password: z.string().min(1, "Пароль обязателен"),
 });
 
 const registerSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  fullName: z.string().min(1, "Full name is required"),
+  username: z.string().min(3, "Имя пользователя должно содержать минимум 3 символа"),
+  email: z.string().email("Неверный адрес электронной почты"),
+  password: z.string().min(6, "Пароль должен содержать минимум 6 символов"),
+  fullName: z.string().min(1, "Полное имя обязательно"),
   role: z.string().default("user"),
 });
 
@@ -77,32 +77,32 @@ export default function AuthPage() {
           {/* Left side - Forms */}
           <div className="flex flex-col justify-center">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-primary mb-2">DigitalMart</h1>
-              <p className="text-gray-600">Join our marketplace of digital creators</p>
+              <h1 className="text-3xl font-bold text-primary mb-2">Цифровой Маркет</h1>
+              <p className="text-gray-600">Присоединяйтесь к нашему маркетплейсу цифровых создателей</p>
             </div>
 
             <Card className="w-full max-w-md mx-auto lg:mx-0">
               <CardHeader>
-                <CardTitle className="text-2xl text-center">Welcome</CardTitle>
+                <CardTitle className="text-2xl text-center">Добро пожаловать</CardTitle>
                 <CardDescription className="text-center">
-                  Sign in to your account or create a new one
+                  Войдите в свою учетную запись или создайте новую
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                   <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="login">Sign In</TabsTrigger>
-                    <TabsTrigger value="register">Sign Up</TabsTrigger>
+                    <TabsTrigger value="login">Войти</TabsTrigger>
+                    <TabsTrigger value="register">Регистрация</TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="login" className="space-y-4">
                     <form onSubmit={loginForm.handleSubmit(onLogin)} className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="username">Username</Label>
+                        <Label htmlFor="username">Имя пользователя</Label>
                         <Input
                           id="username"
                           {...loginForm.register("username")}
-                          placeholder="Enter your username"
+                          placeholder="Введите ваше имя пользователя"
                         />
                         {loginForm.formState.errors.username && (
                           <p className="text-sm text-destructive">
@@ -112,12 +112,12 @@ export default function AuthPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">Пароль</Label>
                         <Input
                           id="password"
                           type="password"
                           {...loginForm.register("password")}
-                          placeholder="Enter your password"
+                          placeholder="Введите ваш пароль"
                         />
                         {loginForm.formState.errors.password && (
                           <p className="text-sm text-destructive">
@@ -129,7 +129,7 @@ export default function AuthPage() {
                       <div className="flex items-center space-x-2">
                         <Checkbox id="remember" />
                         <Label htmlFor="remember" className="text-sm">
-                          Remember me
+                          Запомнить меня
                         </Label>
                       </div>
 
@@ -138,7 +138,7 @@ export default function AuthPage() {
                         className="w-full bg-primary hover:bg-primary/90"
                         disabled={loginMutation.isPending}
                       >
-                        {loginMutation.isPending ? "Signing in..." : "Sign In"}
+                        {loginMutation.isPending ? "Вход..." : "Войти"}
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                     </form>
@@ -147,11 +147,11 @@ export default function AuthPage() {
                   <TabsContent value="register" className="space-y-4">
                     <form onSubmit={registerForm.handleSubmit(onRegister)} className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="fullName">Full Name</Label>
+                        <Label htmlFor="fullName">Полное имя</Label>
                         <Input
                           id="fullName"
                           {...registerForm.register("fullName")}
-                          placeholder="Enter your full name"
+                          placeholder="Введите ваше полное имя"
                         />
                         {registerForm.formState.errors.fullName && (
                           <p className="text-sm text-destructive">
@@ -161,11 +161,11 @@ export default function AuthPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="reg-username">Username</Label>
+                        <Label htmlFor="reg-username">Имя пользователя</Label>
                         <Input
                           id="reg-username"
                           {...registerForm.register("username")}
-                          placeholder="Choose a username"
+                          placeholder="Выберите имя пользователя"
                         />
                         {registerForm.formState.errors.username && (
                           <p className="text-sm text-destructive">
@@ -175,12 +175,12 @@ export default function AuthPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">Электронная почта</Label>
                         <Input
                           id="email"
                           type="email"
                           {...registerForm.register("email")}
-                          placeholder="Enter your email"
+                          placeholder="Введите вашу электронную почту"
                         />
                         {registerForm.formState.errors.email && (
                           <p className="text-sm text-destructive">
@@ -190,12 +190,12 @@ export default function AuthPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="reg-password">Password</Label>
+                        <Label htmlFor="reg-password">Пароль</Label>
                         <Input
                           id="reg-password"
                           type="password"
                           {...registerForm.register("password")}
-                          placeholder="Create a password"
+                          placeholder="Создайте пароль"
                         />
                         {registerForm.formState.errors.password && (
                           <p className="text-sm text-destructive">
@@ -207,9 +207,9 @@ export default function AuthPage() {
                       <div className="flex items-center space-x-2">
                         <Checkbox id="terms" required />
                         <Label htmlFor="terms" className="text-sm">
-                          I agree to the{" "}
+                          Я согласен с{" "}
                           <a href="#" className="text-primary hover:underline">
-                            Terms of Service
+                            Условиями использования
                           </a>
                         </Label>
                       </div>
@@ -219,7 +219,7 @@ export default function AuthPage() {
                         className="w-full bg-primary hover:bg-primary/90"
                         disabled={registerMutation.isPending}
                       >
-                        {registerMutation.isPending ? "Creating account..." : "Create Account"}
+                        {registerMutation.isPending ? "Создание аккаунта..." : "Создать аккаунт"}
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
                     </form>
@@ -233,10 +233,10 @@ export default function AuthPage() {
           <div className="hidden lg:flex flex-col justify-center space-y-8">
             <div className="text-center">
               <h2 className="text-4xl font-bold text-secondary mb-4">
-                Join Thousands of Creators
+                Присоединяйтесь к тысячам создателей
               </h2>
               <p className="text-xl text-gray-600 mb-8">
-                Sell your digital products or discover amazing content from talented creators worldwide.
+                Продавайте свои цифровые товары или открывайте удивительный контент от талантливых создателей по всему миру.
               </p>
             </div>
 
@@ -245,9 +245,9 @@ export default function AuthPage() {
                 <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
                   <ShoppingBag className="w-6 h-6" />
                 </div>
-                <h3 className="font-semibold mb-2">Easy Selling</h3>
+                <h3 className="font-semibold mb-2">Легкая продажа</h3>
                 <p className="text-sm text-gray-600">
-                  Upload and sell your digital products with just a few clicks
+                  Загружайте и продавайте свои цифровые товары всего за несколько кликов
                 </p>
               </div>
 
@@ -255,9 +255,9 @@ export default function AuthPage() {
                 <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="w-6 h-6" />
                 </div>
-                <h3 className="font-semibold mb-2">Global Reach</h3>
+                <h3 className="font-semibold mb-2">Мировое присутствие</h3>
                 <p className="text-sm text-gray-600">
-                  Connect with customers from around the world
+                  Связывайтесь с клиентами со всего мира
                 </p>
               </div>
 
@@ -265,9 +265,9 @@ export default function AuthPage() {
                 <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
                   <Star className="w-6 h-6" />
                 </div>
-                <h3 className="font-semibold mb-2">Quality Products</h3>
+                <h3 className="font-semibold mb-2">Качественные товары</h3>
                 <p className="text-sm text-gray-600">
-                  Discover high-quality digital assets and templates
+                  Открывайте высококачественные цифровые активы и шаблоны
                 </p>
               </div>
 
@@ -275,9 +275,9 @@ export default function AuthPage() {
                 <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
                   <ArrowRight className="w-6 h-6" />
                 </div>
-                <h3 className="font-semibold mb-2">Instant Access</h3>
+                <h3 className="font-semibold mb-2">Мгновенный доступ</h3>
                 <p className="text-sm text-gray-600">
-                  Get immediate access to your purchases
+                  Получите немедленный доступ к вашим покупкам
                 </p>
               </div>
             </div>

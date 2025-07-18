@@ -1,0 +1,68 @@
+{
+  "category": "ebooks",
+  "description": "Educational content and e-books",
+  "web_specs": {
+    "width": 400,
+    "height": 300,
+    "format": "WebP",
+    "quality": 85,
+    "aspect_ratio": "4:3"
+  },
+  "images": [
+    {
+      "filename": "ebooks_1.webp",
+      "path": "./ebooks_1.webp",
+      "original_info": {
+        "url": "https://picsum.photos/800/600?random=1",
+        "download_url": "https://picsum.photos/800/600?random=1",
+        "author": "Placeholder Service",
+        "description": "ebooks placeholder image 1",
+        "source": "placeholder"
+      },
+      "optimized_specs": {
+        "width": 400,
+        "height": 300,
+        "format": "WebP",
+        "quality": 85,
+        "aspect_ratio": "4:3"
+      }
+    },
+    {
+      "filename": "ebooks_2.webp",
+      "path": "./ebooks_2.webp",
+      "original_info": {
+        "url": "https://picsum.photos/800/600?random=2",
+        "download_url": "https://picsum.photos/800/600?random=2",
+        "author": "Placeholder Service",
+        "description": "ebooks placeholder image 2",
+        "source": "placeholder"
+      },
+      "optimized_specs": {
+        "width": 400,
+        "height": 300,
+        "format": "WebP",
+        "quality": 85,
+        "aspect_ratio": "4:3"
+      }
+    },
+    {
+      "filename": "ebooks_3.webp",
+      "path": "./ebooks_3.webp",
+      "original_info": {
+        "url": "https://picsum.photos/800/600?random=3",
+        "download_url": "https://picsum.photos/800/600?random=3",
+        "author": "Placeholder Service",
+        "description": "ebooks placeholder image 3",
+        "source": "placeholder"
+      },
+      "optimized_specs": {
+        "width": 400,
+        "height": 300,
+        "format": "WebP",
+        "quality": 85,
+        "aspect_ratio": "4:3"
+      }
+    }
+  ],
+  "generated_at": "2025-07-18 17:31:51"
+}

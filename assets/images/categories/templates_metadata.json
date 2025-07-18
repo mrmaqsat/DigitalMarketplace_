@@ -1,0 +1,68 @@
+{
+  "category": "templates",
+  "description": "Design templates and layouts",
+  "web_specs": {
+    "width": 400,
+    "height": 300,
+    "format": "WebP",
+    "quality": 85,
+    "aspect_ratio": "4:3"
+  },
+  "images": [
+    {
+      "filename": "templates_1.webp",
+      "path": "./templates_1.webp",
+      "original_info": {
+        "url": "https://picsum.photos/800/600?random=1",
+        "download_url": "https://picsum.photos/800/600?random=1",
+        "author": "Placeholder Service",
+        "description": "templates placeholder image 1",
+        "source": "placeholder"
+      },
+      "optimized_specs": {
+        "width": 400,
+        "height": 300,
+        "format": "WebP",
+        "quality": 85,
+        "aspect_ratio": "4:3"
+      }
+    },
+    {
+      "filename": "templates_2.webp",
+      "path": "./templates_2.webp",
+      "original_info": {
+        "url": "https://picsum.photos/800/600?random=2",
+        "download_url": "https://picsum.photos/800/600?random=2",
+        "author": "Placeholder Service",
+        "description": "templates placeholder image 2",
+        "source": "placeholder"
+      },
+      "optimized_specs": {
+        "width": 400,
+        "height": 300,
+        "format": "WebP",
+        "quality": 85,
+        "aspect_ratio": "4:3"
+      }
+    },
+    {
+      "filename": "templates_3.webp",
+      "path": "./templates_3.webp",
+      "original_info": {
+        "url": "https://picsum.photos/800/600?random=3",
+        "download_url": "https://picsum.photos/800/600?random=3",
+        "author": "Placeholder Service",
+        "description": "templates placeholder image 3",
+        "source": "placeholder"
+      },
+      "optimized_specs": {
+        "width": 400,
+        "height": 300,
+        "format": "WebP",
+        "quality": 85,
+        "aspect_ratio": "4:3"
+      }
+    }
+  ],
+  "generated_at": "2025-07-18 17:31:53"
+}

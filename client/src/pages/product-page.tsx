@@ -31,7 +31,7 @@ import { z } from "zod";
 
 const reviewSchema = z.object({
   rating: z.number().min(1).max(5),
-  comment: z.string().min(10, "Comment must be at least 10 characters"),
+  comment: z.string().min(10, "Комментарий должен содержать не менее 10 символов"),
 });
 
 type ReviewData = z.infer<typeof reviewSchema>;
@@ -52,7 +52,7 @@ export default function ProductPage() {
         credentials: "include",
       });
       if (!response.ok) {
-        throw new Error("Product not found");
+        throw new Error("Товар не найден");
       }
       return response.json();
     },
@@ -70,14 +70,14 @@ export default function ProductPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/cart"] });
       toast({
-        title: "Added to cart",
-        description: `${product?.title} has been added to your cart.`,
+        title: "Добавлено в корзину",
+        description: `${product?.title} добавлен в вашу корзину.`,
       });
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to add product to cart.",
+        title: "Ошибка",
+        description: "Не удалось добавить товар в корзину.",
         variant: "destructive",
       });
     },
@@ -93,15 +93,15 @@ export default function ProductPage() {
       queryClient.invalidateQueries({ queryKey: ["/api/cart"] });
       queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
       toast({
-        title: "Purchase successful!",
-        description: "Your product is now available for download in your dashboard.",
+        title: "Покупка успешна!",
+        description: "Ваш товар теперь доступен для скачивания в личном кабинете.",
       });
       navigate("/dashboard");
     },
     onError: () => {
       toast({
-        title: "Purchase failed",
-        description: "There was an error processing your purchase.",
+        title: "Покупка не удалась",
+        description: "Произошла ошибка при обработке вашей покупки.",
         variant: "destructive",
       });
     },
@@ -124,14 +124,14 @@ export default function ProductPage() {
       setShowReviewForm(false);
       reviewForm.reset();
       toast({
-        title: "Review submitted",
-        description: "Thank you for your feedback!",
+        title: "Отзыв отправлен",
+        description: "Спасибо за ваш отзыв!",
       });
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to submit review.",
+        title: "Ошибка",
+        description: "Не удалось отправить отзыв.",
         variant: "destructive",
       });
     },
@@ -163,8 +163,8 @@ export default function ProductPage() {
   const handleAddToCart = () => {
     if (!user) {
       toast({
-        title: "Sign in required",
-        description: "Please sign in to add products to your cart.",
+        title: "Необходим вход",
+        description: "Пожалуйста, войдите в систему, чтобы добавить товары в корзину.",
         variant: "destructive",
       });
       navigate("/auth");
@@ -176,8 +176,8 @@ export default function ProductPage() {
   const handleBuyNow = () => {
     if (!user) {
       toast({
-        title: "Sign in required",
-        description: "Please sign in to purchase products.",
+        title: "Необходим вход",
+        description: "Пожалуйста, войдите в систему, чтобы приобрести товары.",
         variant: "destructive",
       });
       navigate("/auth");
@@ -226,10 +226,10 @@ export default function ProductPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Card>
             <CardContent className="p-12 text-center">
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-              <p className="text-gray-600 mb-6">The product you're looking for doesn't exist.</p>
+              <h1 className="text-2xl font-bold text-gray-900 mb-4">Товар не найден</h1>
+              <p className="text-gray-600 mb-6">Товар, который вы ищете, не существует.</p>
               <Button onClick={() => navigate("/")} className="bg-primary hover:bg-primary/90">
-                Back to Home
+                На главную
               </Button>
             </CardContent>
           </Card>
@@ -297,37 +297,37 @@ export default function ProductPage() {
               <div className="flex items-center space-x-4 mb-6">
                 {renderStars(parseFloat(product.rating || "0"))}
                 <span className="text-gray-600">
-                  {product.rating} ({product.reviewCount} reviews)
+                  {product.rating} ({product.reviewCount} отзывов)
                 </span>
                 <Badge variant="secondary">
-                  {product.salesCount} sales
+                  {product.salesCount} продаж
                 </Badge>
               </div>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-3">Description</h3>
+              <h3 className="font-semibold mb-3">Описание</h3>
               <p className="text-gray-600 leading-relaxed">{product.description}</p>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-3">What's Included:</h3>
+              <h3 className="font-semibold mb-3">Что включено:</h3>
               <div className="space-y-2">
                 {product.files?.map((file, index) => (
                   <div key={index} className="flex items-center text-gray-600">
                     <Check className="w-4 h-4 text-green-500 mr-2" />
                     <FileText className="w-4 h-4 mr-2" />
-                    Digital file {index + 1}
+                    Цифровой файл {index + 1}
                   </div>
                 ))}
                 <div className="flex items-center text-gray-600">
                   <Check className="w-4 h-4 text-green-500 mr-2" />
                   <ImageIcon className="w-4 h-4 mr-2" />
-                  High-resolution preview images
+                  Изображения для предпросмотра в высоком разрешении
                 </div>
                 <div className="flex items-center text-gray-600">
                   <Check className="w-4 h-4 text-green-500 mr-2" />
-                  Documentation and support
+                  Документация и поддержка
                 </div>
               </div>
             </div>
@@ -340,11 +340,11 @@ export default function ProductPage() {
                 size="lg"
               >
                 {addToCartMutation.isPending ? (
-                  "Adding to cart..."
+                  "Добавление в корзину..."
                 ) : (
                   <>
                     <ShoppingCart className="w-5 h-5 mr-2" />
-                    Add to Cart - {formatPrice(product.price)}
+                    Добавить в корзину - {formatPrice(product.price)}
                   </>
                 )}
               </Button>
@@ -357,11 +357,11 @@ export default function ProductPage() {
                 size="lg"
               >
                 {buyNowMutation.isPending ? (
-                  "Processing..."
+                  "Обработка..."
                 ) : (
                   <>
                     <Download className="w-5 h-5 mr-2" />
-                    Buy Now
+                    Купить сейчас
                   </>
                 )}
               </Button>
@@ -374,13 +374,13 @@ export default function ProductPage() {
           <Card>
             <CardContent className="p-8">
               <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-bold">Customer Reviews</h2>
+                <h2 className="text-2xl font-bold">Отзывы покупателей</h2>
                 {user && (
                   <Button
                     onClick={() => setShowReviewForm(!showReviewForm)}
                     variant="outline"
                   >
-                    Write a Review
+                    Написать отзыв
                   </Button>
                 )}
               </div>
@@ -390,7 +390,7 @@ export default function ProductPage() {
                   <CardContent className="p-6">
                     <form onSubmit={reviewForm.handleSubmit(onSubmitReview)} className="space-y-4">
                       <div>
-                        <Label>Rating</Label>
+                        <Label>Рейтинг</Label>
                         <div className="mt-2">
                           {renderStars(
                             reviewForm.watch("rating"),
@@ -401,11 +401,11 @@ export default function ProductPage() {
                       </div>
                       
                       <div>
-                        <Label htmlFor="comment">Comment</Label>
+                        <Label htmlFor="comment">Комментарий</Label>
                         <Textarea
                           id="comment"
                           {...reviewForm.register("comment")}
-                          placeholder="Share your thoughts about this product..."
+                          placeholder="Поделитесь своими мыслями об этом товаре..."
                           className="mt-2"
                         />
                         {reviewForm.formState.errors.comment && (
@@ -421,14 +421,14 @@ export default function ProductPage() {
                           disabled={submitReviewMutation.isPending}
                           className="bg-primary hover:bg-primary/90"
                         >
-                          {submitReviewMutation.isPending ? "Submitting..." : "Submit Review"}
+                          {submitReviewMutation.isPending ? "Отправка..." : "Отправить отзыв"}
                         </Button>
                         <Button
                           type="button"
                           variant="outline"
                           onClick={() => setShowReviewForm(false)}
                         >
-                          Cancel
+                          Отмена
                         </Button>
                       </div>
                     </form>
@@ -441,10 +441,10 @@ export default function ProductPage() {
                   <div className="text-center py-12">
                     <Star className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      No reviews yet
+                      Отзывов пока нет
                     </h3>
                     <p className="text-gray-500">
-                      Be the first to review this product!
+                      Будьте первым, кто оставит отзыв об этом товаре!
                     </p>
                   </div>
                 ) : (
